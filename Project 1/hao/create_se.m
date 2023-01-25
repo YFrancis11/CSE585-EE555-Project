@@ -3,7 +3,7 @@
 % argument
 %       size: the width of a square
 %       radius: the radius of a circle in the square
-%       
+% note that we always create symetric SE
 function [se] = create_se(size, radius)
 
     if size < radius || mod(size, 2) == 0 
