@@ -6,7 +6,7 @@ function [include] = is_include(im, B, x, y)
 
     include = true;
 
-    r = (h+1)/2 ;
+    r = (h +1)/2 ;
 
     for i = 1: h
         for j = 1 : w

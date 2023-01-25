@@ -1,17 +1,10 @@
-%%%%%%%%%%%%%  Function denoise %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%% denoise %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Purpose:  
 %      remove salt and peper noise using closing operatin
-%
 
 function [imc] = denoise(imb)
-
-    % create a 3 by 3 circle SE
-%     B = strel("disk", 3);
-    B = create_se(6, 3);
-
-    %% opening/closing
+    % create a circle with r=3 inside a 5 by 5 square
+    B = create_se(7, 3);
+    %% closing
     imc = erode(dilate(imb, B), B);
-%     imc = imopen(imb, B);
-%     imtool(imc);
-
 end

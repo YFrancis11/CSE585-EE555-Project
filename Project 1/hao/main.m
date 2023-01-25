@@ -45,5 +45,7 @@ imc = denoise(imb);
 % object detection using hit-or-miss operation
 im_ = hit_or_miss(imc);
 
+imshow(im_);
+
 
 %%%%%%%%%%%%% End of the main.m file %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

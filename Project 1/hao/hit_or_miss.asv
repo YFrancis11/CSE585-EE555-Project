@@ -9,8 +9,8 @@ function [im_] = hit_or_miss(im)
     % create two SE
     % A is bigger than smallest circles
     % B is smaller than the biggest circles
-    A = create_se(19,9);
-    B = create_se(63,30);
+    A = create_se(19,10);
+    B = create_se(59,30);
 
     % hit-or-miss
     % im3 = (X erode A) & (X^c erode B^S)

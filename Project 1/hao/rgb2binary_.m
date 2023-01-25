@@ -1,6 +1,6 @@
 %%%%%%%%%%%%%  Function rgb2binary_ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Purpose:  
-%      convert a rbg to a binary
+%      convert a rbg to a binary image
 %
 
 function [imb] = rgb2binary_(im)
@@ -21,6 +21,6 @@ function [imb] = rgb2binary_(im)
             end
         end
     end
-    imb = logical(imb);
-%     imtool(imb);
+    % set to bool type
+    imb = logical(imb); 
 end
