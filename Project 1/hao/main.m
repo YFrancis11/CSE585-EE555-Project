@@ -33,17 +33,21 @@ close all;
 clc;
 
 
+mkdir 'results'
+
 % read an image
 im = imread('RandomDisks-P10.jpg');
 
 % convert a rbg image to binary image
 %       imb: binary image with type of bool(0/1)
 imb = rgb2binary_(im);
+imwrite(imb, 'results\imb.png');
+
 
 % filter out salt-peper noise
 %       imc: cleaned image
 imc = denoise(imb);
-
+imwrite(imc, 'results\imc.png');
 
 % object detection using hit-or-miss operation
 %       im1: (X erode A)
@@ -52,6 +56,13 @@ imc = denoise(imb);
 %       im4: extended im3 based on the second largest circle's radius (r=29)
 %       im5: image with selected circles only
 [im1, im2, im3, im4, im5] = hit_or_miss(imc);
+imwrite(im1, 'results\im1.png');
+imwrite(im2, 'results\im2.png');
+imwrite(im3, 'results\im3.png');
+imwrite(im4, 'results\im4.png');
+imwrite(im5, 'results\im5.png');
+
+
 
 
 %%%%%%%%%%%%% End of the main.m file %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
