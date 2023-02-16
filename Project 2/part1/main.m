@@ -35,35 +35,38 @@ clc;
 
 mkdir 'results'
 
-% read an image
-[gifImage cmap] = imread('bear.gif', 'Frames', 'all');
-size(gifImage)
-implay(gifImage);
 
-% convert a rbg image to binary image
-%       imb: binary image with type of bool(0/1)
-imb = rgb2binary_(im);
-imwrite(imb, 'results\imb.png');
+pic_name = 'bear'; % 'bear'
+
+% read an image as binary image
+im = logical(imread(strcat(pic_name, '.gif')));
+
+% create 8 SE
+B = create_8_B();
 
 
-% filter out salt-peper noise
-%       imc: cleaned image
-imc = denoise(imb);
-imwrite(imc, 'results\imc.png');
+% grass-fire operations
+result_im = skeletonization(im, B);
 
-% object detection using hit-or-miss operation
-%       im1: (X erode A)
-%       im2: (X^c erode B^S)
-%       im3: ~(~im1 & ~im2) %%takes ~ because foreground is 0
-%       im4: extended im3 based on the second largest circle's radius (r=29)
-%       im5: image with selected circles only
-[im1, im2, im3, im4, im5] = hit_or_miss(imc);
-imwrite(im1, 'results\im1.png');
-imwrite(im2, 'results\im2.png');
-imwrite(im3, 'results\im3.png');
-imwrite(im4, 'results\im4.png');
-imwrite(im5, 'results\im5.png');
 
+
+
+%%%%%%%%% save images as requsted 
+
+len = size(result_im, 3);
+save_array = sort([3, 6, 11, 100, len]);
+for i = save_array
+    if i > len % out of range
+        break
+    end
+
+    name = strcat('results\', strcat(pic_name, strcat('x', strcat(int2str(i-1), '.png'))));
+    imwrite(result_im(:,:,i), name);
+    
+    name = strcat('results\', strcat(pic_name, strcat('superpos', strcat(int2str(i-1), '.png'))));
+    imwrite(im - result_im(:,:,i), name);
+
+end
 
 
 
