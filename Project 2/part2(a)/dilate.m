@@ -1,0 +1,52 @@
+%%%%%%%%%%%%% Function erode %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Purpose:  
+%      Function of dilate operation
+%
+% Input Variables:
+%      im        Input image
+%      B         Input SE
+%      
+% Returned Results:
+%      im2       The shape of the dilation of im by B
+%
+% Processing Flow:
+%      1.  Get the 2D dimensions of inputs
+%      2.  Applying dilation operation
+%          
+% Restrictions/Notes:
+%      1. Note that we always create symetric SE, that is B = B^S
+%      2. Foreground pixels are 0s, while background pixels are 1s.
+%
+% The following functions are called:
+%      is_hit.m    Check if SE hits X
+%
+%  Author:      Hao Zhou
+%  Date:        1/24/2023 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+function [im2] = dilate(im, B)
+
+    B = transpose(B);
+
+    % Get the 2D dimensions of inputs
+    [y, x] = size(im);
+    [m, n] = size(B);
+
+    im2 = zero(y + floor(m / 2) * 2, x + floor(n / 2) * 2, 1);
+    border = zero(y + floor(m / 2) * 4, x + floor(n / 2) * 4, 1);
+    border(floor(m / 2) * 2 + 1 : floor(m / 2) * 2 + y, floor(n / 2) * 2 + 1 : floor(n / 2) * 2 + x) = im;
+
+    % Applying dilation operation
+    % Loop through all elements in the image
+    for i = 1 : size(im2, 1)
+        for j = 1: size(im2, 2)
+            block = border(i : i + m - 1, j : j + n - 1);
+            if (sum(sum(block .* B)) == 0)
+                im2(i, j) = 0;
+            else
+                im2(i, j) = 1;
+            end
+        end
+    end
+    
+end
