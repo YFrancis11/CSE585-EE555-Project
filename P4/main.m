@@ -1,3 +1,41 @@
+%%%%%%%%%%%%%%% main.m file %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Purpose:  
+%      Process images with Gabor and smooth filters separately
+%      Transfer the pixel value and generate the gray-scale image
+%      Generate a threshold value and filter image to get the superimposed
+%      result
+%
+% Input Variables:
+%      I_t2           Input image 'texture2'
+%      I_t1           Input image 'texture1'
+%      I_3            Input image 'd9d77'
+%      I_4            Input image 'd4d29'
+%      
+% Returned Results:
+%      (num)_1     The 3D plot after applying Gabor filter
+%      (num)_2     The 3D plot after applying smooth filter
+%      (num)_3     The plot of gray-scale image m(x,y)
+%      (num)_4     The plot of gray-scale image m'(x,y)
+%      (num)_5     The plot of the superimposed image
+%
+% Processing Flow:
+%      1.  Load in the 'texture2' image
+%      2.  Use different filter functions to process the image and get the
+%      plot respectively
+%      3.  Scale the pixel value and generate image m(x,y) and m'(x,y)
+%      4.  Calculte the threshold value and filter the image
+%          
+% Restrictions/Notes:
+%      None
+%
+% The following functions are called:
+%      Gabor.m       Apply Gabor filter to the image  
+%      smooth.m      Apply smooth filter to the image 
+%
+%  Author:      Fan Yang
+%  Date:        4/13/2023 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 % Clean windows, workspace, etc
 clear;
 close all;
@@ -87,6 +125,7 @@ figure(10);
 imshow(I_t1_seg);title('superimposed texture1');
 saveas(figure(10), 'results\2_5.png');
 
+
 %%  Question (3)
 % Read in the image 'd9d77'
 I_3 = imread('d9d77.gif');
@@ -103,7 +142,7 @@ saveas(figure(11), 'results\3_1.png');
 m_3 = m_3 * (1 / max(max(m_3)));
 figure(12);
 imshow(m_3); title('gray-scale d9d77 m(x,y)');
-saveas(figure(12), 'results\3_2.png');
+saveas(figure(12), 'results\3_3.png');
 
 % Using the mean of the max and min value as the threshold
 thresh3 = 0.5 * (max(m_3(:)) + min(m_3(:)));
@@ -112,46 +151,46 @@ m_3_thresh = m_3 > thresh3;
 I_3_seg = m_3_thresh * 0.5 + I_3(2 * 36 + 1 : size(I_3, 1) - 2 * 36, 2 * 36 + 1 : size(I_3, 2) - 2 * 36) * 0.5;
 figure(13);
 imshow(I_3_seg); title('superimposed d9d77');
-saveas(figure(13), 'results\3_3.png');
+saveas(figure(13), 'results\3_5.png');
 
 
 %%  Question (4)
 % Read in the image 'd4d29'
-I_d4d29 = imread('d4d29.gif');
-I_d4d29 = double(I_d4d29) / 255;
+I_4 = imread('d4d29.gif');
+I_4 = double(I_4) / 255;
 
 % Applying Gabor filter and generate 3D plot
-m_d4d29 = Gabor(I_d4d29, 0.6038, 8, -50.5*pi/180);
+m_4 = Gabor(I_4, 0.6038, 8, -50.5*pi/180);
 figure(14);
-mesh(1 : size(m_d4d29, 2), 1 : size(m_d4d29, 1), m_d4d29);
+mesh(1 : size(m_4, 2), 1 : size(m_4, 1), m_4);
 title('applying Gabor filter to d4d29');
 saveas(figure(14), 'results\4_1.png');
 
 % Applying smooth filter and generate 3D plot
-m2_d4d29 = smooth(m_d4d29, 40);
+m2_4 = smooth(m_4, 40);
 figure(15);
-mesh(1 : size(m2_d4d29, 2), 1 : size(m2_d4d29, 1), m2_d4d29);
+mesh(1 : size(m2_4, 2), 1 : size(m2_4, 1), m2_4);
 title('applying smooth filter to d4d29');
 saveas(figure(15), 'results\4_2.png');
 
 % Scale the pixel value and generate m(x,y) and m'(x,y) as the gray-scale
 % image 
-m_d4d29 = m_d4d29 * (1 / max(max(m_d4d29)));
+m_4 = m_4 * (1 / max(max(m_4)));
 figure(16);
-imshow(m_d4d29); title('gray-scale d4d29 m(x,y)');
+imshow(m_4); title('gray-scale d4d29 m(x,y)');
 saveas(figure(16), 'results\4_3.png');
 
-m2_d4d29 = m2_d4d29 * (1 / max(max(m2_d4d29)));
+m2_4 = m2_4 * (1 / max(max(m2_4)));
 figure(17);
-imshow(m2_d4d29); title('gray-scale d4d29 m (x,y)');
+imshow(m2_4); title('gray-scale d4d29 m (x,y)');
 saveas(figure(17), 'results\4_4.png');
 
 % Using the mean of the max and min value as the threshold
-thresh4 = 0.5 * (max(m2_d4d29(:)) + min(m2_d4d29(:)));
+thresh4 = 0.5 * (max(m2_4(:)) + min(m2_4(:)));
 % Filtering m' and generate the superimposed result
-m_d4d29_thresh = m2_d4d29 > thresh4;
-I_d4d29_seg = m_d4d29_thresh * 0.5 + I_d4d29(2 * 48 + 1 : size(I_d4d29, 1) - 2 * 48, 2 * 48 + 1 : size(I_d4d29, 2) - 2 * 48) * 0.5;
+m_4_thresh = m2_4 > thresh4;
+I_4_seg = m_4_thresh * 0.5 + I_4(2 * 48 + 1 : size(I_4, 1) - 2 * 48, 2 * 48 + 1 : size(I_4, 2) - 2 * 48) * 0.5;
 figure(18);
-imshow(I_d4d29_seg); title('superimposed d4d29');
+imshow(I_4_seg); title('superimposed d4d29');
 saveas(figure(18), 'results\4_5.png');
 
