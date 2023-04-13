@@ -1,4 +1,4 @@
-function m = Gabor(I,sigma,F,theta)
+function m = Gabor(I,F,sigma,theta)
 [row,col] = size(I);
 [gx gy] = gaussian(sigma);
 
